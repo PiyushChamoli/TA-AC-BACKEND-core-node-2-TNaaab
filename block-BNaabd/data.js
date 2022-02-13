@@ -12,11 +12,13 @@ function handleRequest(req,res) {
     })
 
     req.on('end', () => {
-        if (dataFormat === 'application/json') {
+        if (req.method === 'POST' && req.url === '/json') {
+            res.setHeader('Content-Type','application/json');
             res.end(store);
         }
-        if (dataFormat === 'application/x-www-form-urlencoded') {
+        if (req.method === 'POST' && req.url === '/form') {
             let parsedData = qs.parse(store);
+            res.setHeader('Content-Type','application/json');
             res.end(JSON.stringify(parsedData));
         }
     })
