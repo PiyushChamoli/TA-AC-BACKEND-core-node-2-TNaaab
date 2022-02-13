@@ -7,9 +7,11 @@ function handleRequest(req, res) {
     req.on('data', (chunk) => {
         allData += chunk;
     })
-    req.on('end' ,() => console.log(allData));
-    res.write(allData);
-    res.end();
+    req.on('end' ,() => {
+        res.write(allData);
+        res.end();
+    });
+    
 }
 
 server.listen(5000, () => {
