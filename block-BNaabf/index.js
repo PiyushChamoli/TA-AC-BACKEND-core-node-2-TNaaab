@@ -22,10 +22,13 @@ function handleRequest(req,res) {
         store +=chunk; 
     })
     req.on('end', () => {
-        if (req.method === 'POST') {
-            res.setHeader('Content-Type','application/json');
+        if (req.method === 'POST' && req.url === '/form') {
+            res.setHeader('Content-Type','text/html');
             let parsedData = qs.parse(store);
-            res.end(JSON.stringify(parsedData));
+            res.write(`<h2>Name: ${parsedData.name}</h2>`);
+            res.write(`<h3>Email: ${parsedData.email}</h3>`);
+            res.write(`<h3>Age: ${parsedData.age}</h3>`);
+            res.end();
         }
     })
 }
