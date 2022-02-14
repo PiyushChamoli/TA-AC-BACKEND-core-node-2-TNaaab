@@ -19,9 +19,11 @@ function handleRequest(req,res) {
         if (req.method === 'POST' && req.url === '/users') {
             var userName = JSON.parse(store).username;
             fs.open(userDir+userName+".json", "wx", (err,fd) => {
+                if (err) return console.log(err);
                 fs.writeFile(fd, store, (err) => {
+                    if (err) return console.log(err);
                     fs.close(fd, (err) => {
-                        res.end(`${userName} successfully registered`);
+                        return res.end(`${userName} successfully registered`);
                     })
                 })
             })   
@@ -29,22 +31,36 @@ function handleRequest(req,res) {
         if (req.method === 'GET' && pathname === '/users') {
             let username = parsedURL.query.username;
             fs.readFile(userDir + username + '.json', (err, user) => {
+                if (err) return console.log(err);
                 res.setHeader('Content-Type','application/json');
-                res.end(user);
+                return res.end(user);
             })
         }
         if (req.method === 'PUT' && pathname === '/users') {
             let username = parsedURL.query.username;
             fs.open(userDir+userName+".json","r+", (err,fd) => {
-                fs.ftruncate()
+                if (err) return console.log(err);
+                fs.ftruncate(fd, (err) => {
+                    if (err) return console.log(err);
+                    fs.writeFile(fd, store, (err) => {
+                        if (err) return console.log(err);
+                        fs.close(fd, () => {
+                            return res.end(`${username} updated`);
+                        })
+                    })
+                })
             })
         }
         if (req.method === 'DELETE' && pathname === '/users') {
             let username = parsedURL.query.username;
-            fs.unlink(userDir + username + '.json',() => {
-                res.end(`${username} successfully deleted`);
+            fs.unlink(userDir + username + '.json',(err) => {
+                if (err) return console.log(err);
+                return res.end(`${username} successfully deleted`);
             });
         }
+
+        res.statusCode = 404;
+        res.end('Page Not Found');
     })
 
 }
