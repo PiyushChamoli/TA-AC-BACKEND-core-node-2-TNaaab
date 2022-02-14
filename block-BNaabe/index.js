@@ -2,16 +2,16 @@
 var path = require('path');
 
 // - capture absolute path of `server.js`(itself)
-// console.log(__filename);
+console.log(__filename);
 
 // - get absolute path of `app.js`
-// console.log(path.join(__dirname,'app.js'));
+console.log(__dirname + '/app.js');
 
 // - get realtive path of `index.html`
-// console.log();
+console.log('./index.html');
 
 // - get absolute path of `index.html` using `path module` 
-// console.log(path.dirname('index.html'));
+console.log(path.join(__dirname,'index.html'));
 
 //Question 2
 
@@ -32,9 +32,9 @@ function handleRequest(req,res) {
     })
 }
 
-// server.listen(5000, () => {
-//     console.log('Server listening on port 5000')
-// })
+server.listen(5000, () => {
+    console.log('Server listening on port 5000')
+})
 
 // Question 3
 
@@ -57,9 +57,9 @@ function handleRequest(req,res) {
     })
 }
 
-// server.listen(5001, () => {
-//     console.log('Server listening on port 5001')
-// })
+server.listen(5001, () => {
+    console.log('Server listening on port 5001')
+})
 
 // Question 4
 
@@ -82,9 +82,9 @@ function handleRequest(req,res) {
     })
 }
 
-// server.listen(9000, () => {
-//     console.log('Server listening on port 9000')
-// })
+server.listen(9000, () => {
+    console.log('Server listening on port 9000')
+})
 
 // QUestion 5
 
@@ -98,14 +98,14 @@ function handleRequest(req,res) {
     req.on('end', () => {
         let parsedData = JSON.parse(store);
         res.setHeader('Content-Type','text/html');
-        res.write(`<h1>${parsedData.name}</h1>`)
+        res.write(`<h1>${parsedData.name}</h1><h2>${parsedData.email}</h2>`)
         res.end();
     })
 }
 
-// server.listen(3000, () => {
-//     console.log('Server listening on port 3000')
-// })
+server.listen(3000, () => {
+    console.log('Server listening on port 3000')
+})
 
 // QUestion 6
 
